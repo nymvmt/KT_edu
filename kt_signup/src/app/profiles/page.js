@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getAllProfiles, checkProfileExists } from '@/lib/profiles'
 import { useAuth } from '@/contexts/AuthContext'
 import Card from '@/components/ui/Card'
@@ -17,13 +17,7 @@ export default function ProfilesPage() {
   const [editingProfile, setEditingProfile] = useState(null)
   const [userHasProfile, setUserHasProfile] = useState(false)
 
-  useEffect(() => {
-    if (!authLoading) {
-      loadData()
-    }
-  }, [authLoading, user])
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       if (user) {
         const { exists } = await checkProfileExists(user.id)
@@ -39,7 +33,13 @@ export default function ProfilesPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (!authLoading) {
+      loadData()
+    }
+  }, [authLoading, loadData])
 
   const handleProfileSuccess = (newProfile) => {
     if (editingProfile) {
@@ -89,11 +89,11 @@ export default function ProfilesPage() {
       {/* 헤더 */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          👥 동기들과 인사해요!
+          동기들과 인사해요!
         </h1>
         <p className="text-gray-600 mb-6">
           같이 입사한 동기들의 이야기를 들어보고, 나만의 자기소개도 남겨보세요! 
-          소소한 취미부터 MBTI까지, 서로에 대해 알아가는 시간 💫
+          소소한 취미부터 MBTI까지, 서로에 대해 알아가는 시간
         </p>
         
         {/* 로그인한 사용자를 위한 프로필 만들기 버튼 */}
@@ -108,7 +108,7 @@ export default function ProfilesPage() {
                 <h3 className={`text-lg font-medium ${
                   userHasProfile ? 'text-green-900' : 'text-blue-900'
                 }`}>
-                  {userHasProfile ? '자기소개 완료! 👏' : '아직 자기소개를 안 하셨네요!'}
+                  {userHasProfile ? '자기소개 완료!' : '아직 자기소개를 안 하셨네요!'}
                 </h3>
                 <p className={userHasProfile ? 'text-green-700' : 'text-blue-700'}>
                   {userHasProfile 
@@ -121,7 +121,7 @@ export default function ProfilesPage() {
                 variant={userHasProfile ? 'success' : 'primary'}
                 onClick={handleCreateNew}
               >
-                {userHasProfile ? '새로운 소개 쓰기' : '첫 인사 남기기 ✨'}
+                {userHasProfile ? '새로운 소개 쓰기' : '첫 인사 남기기'}
               </Button>
             </div>
           </Card>
@@ -172,12 +172,11 @@ export default function ProfilesPage() {
       <div className="space-y-6">
         {profiles.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">🌱</div>
             <h3 className="text-xl font-medium text-gray-900 mb-2">
               아직 아무도 인사를 안 했네요!
             </h3>
             <p className="text-gray-600">
-              첫 번째 자기소개의 주인공이 되어보세요 😊
+              첫 번째 자기소개의 주인공이 되어보세요
             </p>
             {user && (
               <Button
@@ -185,7 +184,7 @@ export default function ProfilesPage() {
                 className="mt-4"
                 size="lg"
               >
-                첫 인사 남기기 🎉
+                첫 인사 남기기
               </Button>
             )}
           </div>

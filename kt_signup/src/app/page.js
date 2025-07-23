@@ -19,17 +19,17 @@ export default function HomePage() {
   return (
     <div className="text-center py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-4">
-        🌱 신입사원 친해지기 프로젝트
+        신입사원 친해지기 프로젝트
       </h1>
       <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
         같은 시기에 입사한 신입사원끼리 서로를 알아가요! 
-        간단한 자기소개로 첫 인사를 나눠보세요 😊
+        간단한 자기소개로 첫 인사를 나눠보세요
       </p>
 
       {user ? (
         <Card className="max-w-md mx-auto p-6">
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            환영합니다, {user.email}님! 👋
+            환영합니다, {user.email}님!
           </h3>
           <p className="text-gray-600 mb-4">
             동기들과 인사를 나누고 서로에 대해 알아가보세요.
@@ -49,7 +49,7 @@ export default function HomePage() {
             </Button>
           </div>
           <p className="text-sm text-gray-500">
-            이미 가입하셨다면 로그인해주세요 ✨
+            이미 가입하셨다면 로그인해주세요
           </p>
         </div>
       )}

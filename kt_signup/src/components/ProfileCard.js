@@ -10,7 +10,7 @@ export default function ProfileCard({ profile, currentUserId, onDelete, onEdit }
   const isOwner = currentUserId === profile.user_id  // user_id로 비교
 
   const handleDelete = async () => {
-    if (!confirm('정말 내 소개를 삭제할까요? 😢')) {
+    if (!confirm('정말 내 소개를 삭제할까요?')) {
       return
     }
 

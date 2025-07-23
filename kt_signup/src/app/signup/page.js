@@ -49,7 +49,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">새로운 동기를 환영해요! 🎊</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">새로운 동기를 환영해요!</h1>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -91,7 +91,7 @@ export default function SignupPage() {
             className="w-full"
             disabled={loading}
           >
-            {loading ? '가입 중...' : '동기들과 친해지기 시작! 🚀'}
+            {loading ? '가입 중...' : '동기들과 친해지기 시작!'}
           </Button>
         </form>
 

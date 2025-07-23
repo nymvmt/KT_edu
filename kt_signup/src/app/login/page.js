@@ -39,7 +39,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">다시 만나서 반가워요! 🎉</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">다시 만나서 반가워요!</h1>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

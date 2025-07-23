@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createProfile, updateProfile, getProfileByUserId } from '@/lib/profiles'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -10,6 +10,22 @@ export default function ProfileForm({ userId, profileData = null, mode = 'create
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+
+  const loadProfile = useCallback(async () => {
+    try {
+      const { data, error } = await getProfileByUserId(userId)
+      if (error) throw error
+      
+      if (data) {
+        setFormData({
+          username: data.username || '',
+          intro: data.intro || ''
+        })
+      }
+    } catch (error) {
+      console.error('프로필 로드 오류:', error)
+    }
+  }, [userId])
 
   useEffect(() => {
     if (mode === 'edit') {
@@ -24,23 +40,7 @@ export default function ProfileForm({ userId, profileData = null, mode = 'create
         loadProfile()
       }
     }
-  }, [mode, userId, profileData])
-
-  const loadProfile = async () => {
-    try {
-      const { data, error } = await getProfileByUserId(userId)
-      if (error) throw error
-      
-      if (data) {
-        setFormData({
-          username: data.username || '',
-          intro: data.intro || ''
-        })
-      }
-    } catch (error) {
-      console.error('프로필 로드 오류:', error)
-    }
-  }
+  }, [mode, userId, profileData, loadProfile])
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -72,7 +72,7 @@ export default function ProfileForm({ userId, profileData = null, mode = 'create
       if (result.error) {
         setError(result.error)
       } else {
-        const successMessage = mode === 'create' ? '동기들에게 첫 인사 완료! 🎉' : '자기소개가 업데이트되었어요! ✨'
+        const successMessage = mode === 'create' ? '동기들에게 첫 인사 완료!' : '자기소개가 업데이트되었어요!'
         setMessage(successMessage)
         onSuccess?.(result.data)
       }
@@ -89,7 +89,7 @@ export default function ProfileForm({ userId, profileData = null, mode = 'create
     <Card>
       <div className="p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          {isEdit ? '자기소개 수정하기 ✏️' : '동기들에게 첫 인사 남기기 👋'}
+          {isEdit ? '자기소개 수정하기' : '동기들에게 첫 인사 남기기'}
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -138,7 +138,7 @@ export default function ProfileForm({ userId, profileData = null, mode = 'create
               type="submit"
               disabled={loading}
             >
-              {loading ? '등록 중...' : (isEdit ? '수정 완료!' : '첫 인사 남기기 🚀')}
+              {loading ? '등록 중...' : (isEdit ? '수정 완료!' : '첫 인사 남기기')}
             </Button>
           </div>
         </form>
